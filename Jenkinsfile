@@ -2,26 +2,14 @@ pipeline {
     agent any
 
     environment {
-        PATH = "/usr/bin:${env.PATH}"
+        PATH = "/usr/local/bin:/usr/bin:${env.PATH}"
     }
 
     stages {
         stage('Stopping services') {
             steps {
-                sh '''
-                    docker compose -p gmu down || true
-                '''
-            }
-        }
 
-        stage('Deleting old images') {
-            steps{
-                sh '''
-                    IMAGES=$(docker images --filter "label=com.docker.compose.project=gmu" -q)
-                    if [ -n "$IMAGES" ]; then
-                        docker rmi -f $IMAGES
-                    fi
-                '''
+                sh 'docker-compose down || true'
             }
         }
 
@@ -33,28 +21,30 @@ pipeline {
 
         stage('Building new images') {
             steps {
-                sh '''
-                    docker compose build --no-cache
-                '''
+
+                sh 'docker-compose build --no-cache'
             }
         }
 
         stage('Deploying containers') {
             steps {
-                sh '''
-                    docker compose up -d
-                '''
+                sh 'docker-compose up -d'
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                sh 'docker image prune -f'
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline executed successfully.'
+            echo '✅ Despliegue exitoso!'
         }
-
         failure {
-            echo 'An error occurred during pipeline execution, check the logs of the stage for mor information.'
+            echo '❌ Error en el despliegue. Revisa los logs.'
         }
     }
 }
