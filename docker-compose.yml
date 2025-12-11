@@ -41,7 +41,7 @@ services:
 
   frontend:
     build:
-      context: ./front/meli-check-front-end-main
+      context: ./front
       dockerfile: Dockerfile
     container_name: melicheck-frontend
     restart: always
