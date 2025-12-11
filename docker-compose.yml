@@ -2,7 +2,7 @@ services:
   database:
     image: mysql:8.0
     command: --skip-name-resolve
-    container_name: melicheck2-database
+    container_name: melicheck-database
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
