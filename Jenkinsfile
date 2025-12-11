@@ -8,6 +8,23 @@ pipeline {
     }
 
     stages {
+        stage('Nuclear Cleanup') {
+            steps {
+                sh '''
+
+                    docker-compose down || true
+
+                    
+                    docker rm -f melicheck-backend || true
+                    docker rm -f melicheck-frontend || true
+                    docker rm -f melicheck2-database || true
+                    docker rm -f melicheck-database || true 
+                    
+                   
+                '''
+            }
+        }
+        
         stage('Stopping services') {
             steps {
                 sh '''
