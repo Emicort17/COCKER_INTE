@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_BUILDKIT = '0'
         COMPOSE_DOCKER_CLI_BUILD = '0'
-        PATH = "/usr/local/bin:/usr/bin:${env.PATH}"
+        PATH = "/usr/bin:${env.PATH}"
     }
 
     stages {
