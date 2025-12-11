@@ -1,0 +1,60 @@
+services:
+  database:
+    image: mysql:8.0
+    command: --skip-name-resolve
+    container_name: melicheck-database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: meli-check
+    ports:
+      - "3307:3306"
+    volumes:
+      - melicheck-db-data:/var/lib/mysql
+    networks:
+      - melicheck-net
+
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: melicheck-backend
+    restart: always
+    depends_on:
+      - database
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_NAME: meli-check
+      DB_USER: root
+      DB_PASS: root
+      SERVER_PORT: 8081
+      JWT_SECRET: feSLZrm7QpEPMc3TY9B2erBaf6lOjLny5dRUd9h4BBo
+      JWT_EXPIRATION: 604800
+    entrypoint: ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - melicheck-net
+
+  frontend:
+    build:
+      context: ./front/meli-check-front-end-main
+      dockerfile: Dockerfile
+    container_name: melicheck-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - melicheck-net
+
+networks:
+  melicheck-net:
+    driver: bridge
+
+volumes:
+  melicheck-db-data:
