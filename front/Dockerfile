@@ -1,11 +1,26 @@
-# Usamos Nginx para servir los archivos estáticos
+
+FROM node:20-alpine as builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+
+RUN npm run build
+
+
 FROM nginx:alpine
 
-# Copiamos la carpeta 'dist' (que generaste en tu PC) al servidor Nginx
-COPY dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Exponemos el puerto 80 interno
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN chmod -R 755 /usr/share/nginx/html
+
 EXPOSE 80
 
-# Arrancamos Nginx
 CMD ["nginx", "-g", "daemon off;"]
