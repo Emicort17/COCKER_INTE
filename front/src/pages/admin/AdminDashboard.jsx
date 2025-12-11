@@ -11,7 +11,7 @@ const AdminDashboard = () => {
       {/* HEADER */}
       <div className="bg-white p-6 rounded-lg shadow-md flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Panel de Control</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Panel de Wiwiwi</h1>
           <p className="text-gray-500">Administrador: {user?.name || user?.email}</p>
           <div className="mt-2 flex items-center gap-2">
             <span className="text-xs font-semibold">Rol:</span>
