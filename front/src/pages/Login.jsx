@@ -135,7 +135,7 @@ const Login = () => {
           <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Truck className="text-white w-8 h-8" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">MeliCheck</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Hola papuh :v/ </h2>
           <p className="text-gray-500 text-sm">Acceso Operaciones</p>
         </div>
 
